@@ -101,7 +101,7 @@ A aplicação estará disponível em: `http://localhost:8080`
 |--------|----------|-----------|
 | GET | `/api/secretarias` | Lista todas as secretarias |
 | POST | `/api/secretarias` | Cria nova secretaria |
-| PUT | `/api/secretarias` | Atualiza secretaria (ID no body) |
+| PUT | `/api/secretarias/{id}` | Atualiza secretaria |
 | DELETE | `/api/secretarias/{id}` | Remove secretaria |
 
 ### Servidores
@@ -110,7 +110,7 @@ A aplicação estará disponível em: `http://localhost:8080`
 |--------|----------|-----------|
 | GET | `/api/servidores` | Lista todos os servidores |
 | POST | `/api/servidores` | Cria novo servidor |
-| PUT | `/api/servidores` | Atualiza servidor (ID no body) |
+| PUT | `/api/servidores/{id}` | Atualiza servidor |
 | DELETE | `/api/servidores/{id}` | Remove servidor |
 
 ## 📝 Exemplos de Uso
