@@ -40,6 +40,19 @@ public class ServidorController {
     }
     
     /**
+     * GET /servidores/{id} - Busca um servidor por ID
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Servidor> getServidorById(@PathVariable String id) {
+        logger.info("GET /api/servidores/{} - Buscando servidor por ID", id);
+        
+        Servidor servidor = servidorService.findById(id);
+        
+        logger.info("GET /api/servidores/{} - Servidor encontrado: {}", id, servidor.getEmail());
+        return ResponseEntity.ok(servidor);
+    }
+    
+    /**
      * POST /servidores - Cria um novo servidor
      */
     @PostMapping
@@ -54,17 +67,22 @@ public class ServidorController {
     }
     
     /**
-     * PUT /servidores - Atualiza um servidor existente
+     * PUT /servidores/{id} - Atualiza um servidor existente
      */
-    @PutMapping
-    public ResponseEntity<Servidor> updateServidor(@Valid @RequestBody Servidor servidor) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Servidor> updateServidor(
+            @PathVariable String id, 
+            @Valid @RequestBody Servidor servidor) {
         
-        logger.info("PUT /api/servidores - Atualizando servidor: {}", servidor.getId());
+        logger.info("PUT /api/servidores/{} - Atualizando servidor", id);
         
-        Servidor updatedServidor = servidorService.update(servidor.getId(), servidor);
+        // Ensure the ID from path is used, not from request body
+        servidor.setId(id);
         
-        logger.info("PUT /api/servidores - Servidor atualizado com sucesso: Email={}", 
-                   updatedServidor.getEmail());
+        Servidor updatedServidor = servidorService.update(id, servidor);
+        
+        logger.info("PUT /api/servidores/{} - Servidor atualizado com sucesso: Email={}", 
+                   id, updatedServidor.getEmail());
         return ResponseEntity.ok(updatedServidor);
     }
     

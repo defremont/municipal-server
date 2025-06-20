@@ -40,6 +40,19 @@ public class SecretariaController {
     }
     
     /**
+     * GET /secretarias/{id} - Busca uma secretaria por ID
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Secretaria> getSecretariaById(@PathVariable String id) {
+        logger.info("GET /api/secretarias/{} - Buscando secretaria por ID", id);
+        
+        Secretaria secretaria = secretariaService.findById(id);
+        
+        logger.info("GET /api/secretarias/{} - Secretaria encontrada: {}", id, secretaria.getSigla());
+        return ResponseEntity.ok(secretaria);
+    }
+    
+    /**
      * POST /secretarias - Cria uma nova secretaria
      */
     @PostMapping
@@ -54,17 +67,22 @@ public class SecretariaController {
     }
     
     /**
-     * PUT /secretarias - Atualiza uma secretaria existente
+     * PUT /secretarias/{id} - Atualiza uma secretaria existente
      */
-    @PutMapping
-    public ResponseEntity<Secretaria> updateSecretaria(@Valid @RequestBody Secretaria secretaria) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Secretaria> updateSecretaria(
+            @PathVariable String id, 
+            @Valid @RequestBody Secretaria secretaria) {
         
-        logger.info("PUT /api/secretarias - Atualizando secretaria: {}", secretaria.getId());
+        logger.info("PUT /api/secretarias/{} - Atualizando secretaria", id);
         
-        Secretaria updatedSecretaria = secretariaService.update(secretaria.getId(), secretaria);
+        // Ensure the ID from path is used, not from request body
+        secretaria.setId(id);
         
-        logger.info("PUT /api/secretarias - Secretaria atualizada com sucesso: Sigla={}", 
-                   updatedSecretaria.getSigla());
+        Secretaria updatedSecretaria = secretariaService.update(id, secretaria);
+        
+        logger.info("PUT /api/secretarias/{} - Secretaria atualizada com sucesso: Sigla={}", 
+                   id, updatedSecretaria.getSigla());
         return ResponseEntity.ok(updatedSecretaria);
     }
     
