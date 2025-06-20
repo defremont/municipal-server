@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: dev
+  data:
+    mongodb:
+      auto-index-creation: true
+  
+  web:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+      allowed-headers: "*"
+      allow-credentials: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.municipal: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    org.springframework.web: INFO
+
+---
+# Development Profile - Uses real MongoDB
+spring:
+  config:
+    activate:
+      on-profile: dev
+  data:
+    mongodb:
+      uri: mongodb://admin:password@localhost:27017/municipal-db?authSource=admin
+
+---
+# Test Profile - Uses embedded MongoDB
+spring:
+  config:
+    activate:
+      on-profile: test
+  data:
+    mongodb:
+      database: municipal-test-db
+
+# Embedded MongoDB configuration
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 7.0.2 

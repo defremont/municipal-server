@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: test
+  data:
+    mongodb:
+      database: municipal-test-db
+      auto-index-creation: true
+
+# Embedded MongoDB configuration
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 7.0.2
+
+logging:
+  level:
+    com.municipal: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    de.flapdoodle.embed.mongo: INFO 

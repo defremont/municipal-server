@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "municipal-servidor-api-collection",
+		"name": "Municipal Servidor API",
+		"description": "API REST para gerenciamento de servidores públicos municipais e suas respectivas secretarias.\n\n**Base URL:** {{baseUrl}}\n**Version:** 1.0.0\n\n## Funcionalidades:\n- Gestão completa de Secretarias\n- Gestão completa de Servidores\n- Validações robustas\n- Tratamento de erros\n\n## Como usar:\n1. Importe esta collection no Postman\n2. Configure a variável de ambiente 'baseUrl' para http://localhost:8080\n3. Execute os requests na ordem sugerida",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🏛️ Secretarias",
+			"item": [
+				{
+					"name": "📋 Listar todas as secretarias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/secretarias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"secretarias"
+							]
+						},
+						"description": "Retorna uma lista com todas as secretarias cadastradas no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "➕ Criar nova secretaria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Secretaria de Educação\",\n  \"sigla\": \"SEDUC\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/secretarias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"secretarias"
+							]
+						},
+						"description": "Cria uma nova secretaria.\n\n**Validações:**\n- Nome: obrigatório, 2-100 caracteres\n- Sigla: obrigatória, 2-10 caracteres, única, convertida para maiúsculo"
+					},
+					"response": []
+				},
+				{
+					"name": "✏️ Atualizar secretaria",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{secretariaId}}\",\n  \"nome\": \"Secretaria Municipal de Educação\",\n  \"sigla\": \"SEDUC\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/secretarias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"secretarias"
+							]
+						},
+						"description": "Atualiza uma secretaria existente. O ID deve ser fornecido no corpo da requisição."
+					},
+					"response": []
+				},
+				{
+					"name": "🗑️ Remover secretaria",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/secretarias/{{secretariaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"secretarias",
+								"{{secretariaId}}"
+							]
+						},
+						"description": "Remove uma secretaria do sistema. Validação de dependências é aplicada (não permite exclusão se houver servidores vinculados)."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gerenciamento de secretarias municipais."
+		},
+		{
+			"name": "👥 Servidores",
+			"item": [
+				{
+					"name": "📋 Listar todos os servidores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/servidores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servidores"
+							]
+						},
+						"description": "Retorna uma lista com todos os servidores cadastrados no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "➕ Criar novo servidor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@municipal.gov.br\",\n  \"dataNascimento\": \"1985-03-15\",\n  \"secretaria\": {\n    \"id\": \"{{secretariaId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/servidores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servidores"
+							]
+						},
+						"description": "Cria um novo servidor.\n\n**Validações:**\n- Nome: obrigatório, 2-100 caracteres\n- Email: obrigatório, formato válido, único\n- Data de nascimento: obrigatória, idade entre 18 e 75 anos\n- Secretaria: obrigatória, deve existir (informar apenas o ID)"
+					},
+					"response": []
+				},
+				{
+					"name": "✏️ Atualizar servidor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{servidorId}}\",\n  \"nome\": \"João da Silva Santos\",\n  \"email\": \"joao.santos@municipal.gov.br\",\n  \"dataNascimento\": \"1985-03-15\",\n  \"secretaria\": {\n    \"id\": \"{{secretariaId}}\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/servidores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servidores"
+							]
+						},
+						"description": "Atualiza um servidor existente. O ID deve ser fornecido no corpo da requisição."
+					},
+					"response": []
+				},
+				{
+					"name": "🗑️ Remover servidor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/servidores/{{servidorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servidores",
+								"{{servidorId}}"
+							]
+						},
+						"description": "Remove um servidor do sistema pelo ID."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gerenciamento de servidores municipais."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "secretariaId",
+			"value": "",
+			"type": "string",
+			"description": "ID da secretaria para usar nos testes"
+		},
+		{
+			"key": "servidorId",
+			"value": "",
+			"type": "string",
+			"description": "ID do servidor para usar nos testes"
+		}
+	]
+} 
